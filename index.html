@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHEYLUH — The Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f3ee;
+      --surface: #ffffff;
+      --surface2: #f0ede6;
+      --border: #e2ddd4;
+      --text: #1c1a17;
+      --muted: #8a8478;
+      --accent: #b8965a;
+      --accent-light: #f5ede0;
+      --red: #c94040;
+      --green: #3a7d44;
+      --blue: #2a5f8f;
+      --teal: #1a7a72;
+      --radius: 14px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,243,238,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      letter-spacing: 0.06em;
+      color: var(--text);
+    }
+    .nav-links {
+      display: flex; gap: 28px; list-style: none;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 60px 24px 48px;
+      max-width: 900px; margin: 0 auto;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 6vw, 64px);
+      line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 16px; color: var(--muted);
+      max-width: 460px; margin: 0 auto;
+    }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+
+    .section { margin-bottom: 56px; }
+    .section-header {
+      display: flex; align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-title {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .section-meta { font-size: 12px; color: var(--muted); }
+
+    /* ── UPDATES / BLOG ── */
+    /*
+    ============================================================
+    HOW TO ADD A NEW UPDATE / BLOG POST:
+    Copy one of the .update-card divs below, paste it at the TOP
+    of the .updates-grid, and edit the text inside.
+    - .update-tag: the category label (e.g. "update", "style", "event")
+    - h3: the post title
+    - .update-body p: the post text
+    - .update-date: the date
+    ============================================================
+    */
+    .updates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .update-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      display: flex; flex-direction: column;
+    }
+    .update-card-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 12px;
+    }
+    .update-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 3px 9px;
+      border-radius: 99px; background: var(--accent-light);
+      color: var(--accent);
+    }
+    .update-tag.drop   { background: #f0e8f5; color: #7a3fa0; }
+    .update-tag.style  { background: #e8f0f5; color: #2a5f8f; }
+    .update-tag.update { background: var(--accent-light); color: var(--accent); }
+    .update-date { font-size: 11px; color: var(--muted); }
+    .update-card h3 {
+      font-size: 15px; font-weight: 600; line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    .update-body p { font-size: 13.5px; color: #4a4640; line-height: 1.6; }
+
+    /* ── FIFA WORLD CUP ── */
+    .wc-banner {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border-radius: var(--radius);
+      padding: 28px 28px 24px;
+      color: #fff;
+      margin-bottom: 16px;
+      position: relative; overflow: hidden;
+    }
+    .wc-banner::before {
+      content: '⚽';
+      position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
+      font-size: 80px; opacity: 0.08;
+    }
+    .wc-banner-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #f5c842; margin-bottom: 6px;
+    }
+    .wc-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; margin-bottom: 6px;
+    }
+    .wc-banner p { font-size: 13px; opacity: 0.75; }
+    .wc-dates {
+      display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap;
+    }
+    .wc-stat { }
+    .wc-stat-val { font-size: 22px; font-weight: 700; color: #f5c842; }
+    .wc-stat-lbl { font-size: 11px; opacity: 0.6; margin-top: 1px; }
+
+    .seattle-matches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .match-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .match-card-top {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 8px;
+    }
+    .match-round {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .match-venue {
+      font-size: 10px; color: var(--accent); font-weight: 600;
+    }
+    .match-teams {
+      font-size: 15px; font-weight: 600; margin-bottom: 2px;
+    }
+    .match-date { font-size: 12px; color: var(--muted); }
+
+    /* live badge */
+    .badge-live {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 3px 8px;
+      background: #fee2e2; color: var(--red);
+      border-radius: 99px;
+    }
+    .dot-live {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--red); animation: blink 1.2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ── SPORTS GRID ── */
+    .sports-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .team-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .team-header {
+      padding: 16px 20px 14px;
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .team-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .team-name { font-size: 15px; font-weight: 600; }
+    .team-league { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .team-status {
+      margin-left: auto; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 99px;
+    }
+    .status-active { background: #dcfce7; color: #166534; }
+    .status-upcoming { background: #fef9c3; color: #854d0e; }
+    .status-break { background: #f1f5f9; color: #475569; }
+
+    .team-games { padding: 12px 20px 16px; }
+    .game-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .game-row:last-child { border-bottom: none; }
+    .game-opponent { font-weight: 500; }
+    .game-info { text-align: right; }
+    .game-date { color: var(--muted); font-size: 12px; }
+    .game-home {
+      font-size: 10px; font-weight: 600; color: var(--accent);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .game-away {
+      font-size: 10px; font-weight: 600; color: var(--muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .no-games { font-size: 13px; color: var(--muted); padding: 8px 0; font-style: italic; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 12px; color: var(--muted);
+    }
+    footer a { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .page { padding: 0 16px 60px; }
+      .wc-banner { padding: 22px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="logo">SHEYLUH</div>
+  <ul class="nav-links">
+    <li><a href="#updates">Updates</a></li>
+    <li><a href="#worldcup">World Cup</a></li>
+    <li><a href="#seattle">Seattle Sports</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-eyebrow">✦ Welcome to the hub</div>
+  <h1>Stay in the loop.</h1>
+  <p>Your one spot for updates, events, and everything happening in Sheyluh's world.</p>
+</div>
+
+<div class="page">
+
+  <!-- ══════════════════════════════════
+       SECTION: UPDATES / BLOG POSTS
+       To add a post: copy an .update-card block,
+       paste it FIRST in .updates-grid, and edit the text.
+  ══════════════════════════════════ -->
+  <section class="section" id="updates">
+    <div class="section-header">
+      <span class="section-title">Latest Updates</span>
+      <span class="section-meta">Updated June 2026</span>
+    </div>
+    <div class="updates-grid">
+
+      <!-- POST 1 — edit or duplicate this block to add new posts -->
+      <div class="update-card">
+        <div class="update-card-top">
+          <span class="update-tag drop">drop</span>
+          <span class="update-date">Jun 13, 2026</span>
+        </div>
+        <h3>Something big is coming 👀</h3>
+        <div class="update-body">
+          <p>Replace this with your latest announcement — a collab, a drop, an event, or just something you want your followers to know. Keep it short and hype.</p>
+        </div>
+      </div>
+
+      <!-- POST 2 -->
+      <div class="update-card">
+        <div class="update-card-top">
+          <span class="update-tag style">style</span>
+          <span class="update-date">Jun 10, 2026</span>
+        </div>
+        <h3>Current obsession: what I've been wearing</h3>
+        <div class="update-body">
+          <p>Share your current style picks, outfit inspo, or a brand you're loving. Link your socials below so followers know where to find the fits.</p>
+        </div>
+      </div>
+
+      <!-- POST 3 -->
+      <div class="update-card">
+        <div class="update-card-top">
+          <span class="update-tag update">update</span>
+          <span class="update-date">Jun 5, 2026</span>
+        </div>
+        <h3>Site is live! Welcome to the hub 🌐</h3>
+        <div class="update-body">
+          <p>This is your personal dashboard — check back here for World Cup schedules, Seattle sports, and everything going on in my world. Bookmark it!</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECTION: FIFA WORLD CUP 2026
+  ══════════════════════════════════ -->
+  <section class="section" id="worldcup">
+    <div class="section-header">
+      <span class="section-title">⚽ FIFA World Cup 2026</span>
+      <span class="section-meta">Jun 11 – Jul 19, 2026</span>
+    </div>
+
+    <div class="wc-banner">
+      <div class="wc-banner-label">🏆 Now happening</div>
+      <h2>FIFA World Cup 2026™</h2>
+      <p>USA · Mexico · Canada &nbsp;·&nbsp; 48 teams &nbsp;·&nbsp; 104 matches &nbsp;·&nbsp; Final at MetLife Stadium, NJ</p>
+      <div class="wc-dates">
+        <div class="wc-stat">
+          <div class="wc-stat-val">48</div>
+          <div class="wc-stat-lbl">Teams</div>
+        </div>
+        <div class="wc-stat">
+          <div class="wc-stat-val">104</div>
+          <div class="wc-stat-lbl">Matches</div>
+        </div>
+        <div class="wc-stat">
+          <div class="wc-stat-val">Jul 19</div>
+          <div class="wc-stat-lbl">Grand Final</div>
+        </div>
+        <div class="wc-stat">
+          <div class="wc-stat-val">6</div>
+          <div class="wc-stat-lbl">Seattle games</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seattle matches at Lumen Field -->
+    <div style="margin-bottom:12px;">
+      <span class="section-title">📍 Seattle @ Lumen Field</span>
+    </div>
+    <div class="seattle-matches">
+
+      <div class="match-card">
+        <div class="match-card-top">
+          <span class="match-round">Group Stage · Group G</span>
+          <span class="match-venue">Lumen Field</span>
+        </div>
+        <div class="match-teams">🇧🇪 Belgium vs Egypt 🇪🇬</div>
+        <div class="match-date">June 15, 2026</div>
+      </div>
+
+      <div class="match-card">
+        <div class="match-card-top">
+          <span class="match-round">Group Stage</span>
+          <span class="match-venue">Lumen Field</span>
+        </div>
+        <div class="match-teams">🇨🇦 Canada · Group Game</div>
+        <div class="match-date">June 21, 2026</div>
+      </div>
+
+      <div class="match-card">
+        <div class="match-card-top">
+          <span class="match-round">Group Stage</span>
+          <span class="match-venue">Lumen Field</span>
+        </div>
+        <div class="match-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England · Group Game</div>
+        <div class="match-date">June 25, 2026</div>
+      </div>
+
+      <div class="match-card">
+        <div class="match-card-top">
+          <span class="match-round">Group Stage</span>
+          <span class="match-venue">Lumen Field</span>
+        </div>
+        <div class="match-teams">🇵🇹 Portugal · Group Game</div>
+        <div class="match-date">June 29, 2026</div>
+      </div>
+
+      <div class="match-card">
+        <div class="match-card-top">
+          <span class="match-round">Round of 32 · Match 82</span>
+          <span class="match-venue">Lumen Field</span>
+        </div>
+        <div class="match-teams">⚽ Knockout Round</div>
+        <div class="match-date">July 1, 2026</div>
+      </div>
+
+      <div class="match-card">
+        <div class="match-card-top">
+          <span class="match-round">Round of 16 · Match 94</span>
+          <span class="match-venue">Lumen Field</span>
+        </div>
+        <div class="match-teams">⚽ Knockout Round</div>
+        <div class="match-date">July 6, 2026</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECTION: SEATTLE SPORTS
+  ══════════════════════════════════ -->
+  <section class="section" id="seattle">
+    <div class="section-header">
+      <span class="section-title">🏙️ Seattle Sports</span>
+      <span class="section-meta">All teams, all seasons</span>
+    </div>
+    <div class="sports-grid">
+
+      <!-- MARINERS -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-icon" style="background:#e8f0f5;">⚾</div>
+          <div>
+            <div class="team-name">Mariners</div>
+            <div class="team-league">MLB Baseball</div>
+          </div>
+          <span class="team-status status-active">Active</span>
+        </div>
+        <div class="team-games">
+          <div class="game-row">
+            <span class="game-opponent">vs Red Sox</span>
+            <div class="game-info">
+              <div class="game-date">Jun 20–21</div>
+              <div class="game-home">Home</div>
+            </div>
+          </div>
+          <div class="game-row">
+            <span class="game-opponent">vs Nationals</span>
+            <div class="game-info">
+              <div class="game-date">Mid June</div>
+              <div class="game-home">Home</div>
+            </div>
+          </div>
+          <div class="game-row">
+            <span class="game-opponent">vs Angels</span>
+            <div class="game-info">
+              <div class="game-date">Jun 29–Jul 2</div>
+              <div class="game-home">Home</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;">
+            <a href="https://www.mlb.com/mariners/schedule" target="_blank" style="font-size:12px;color:var(--accent);font-weight:600;">Full schedule →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- STORM -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-icon" style="background:#f0f5e8;">⛈️</div>
+          <div>
+            <div class="team-name">Storm</div>
+            <div class="team-league">WNBA Basketball</div>
+          </div>
+          <span class="team-status status-active">Active</span>
+        </div>
+        <div class="team-games">
+          <div class="game-row">
+            <span class="game-opponent">vs Golden State</span>
+            <div class="game-info">
+              <div class="game-date">Jun 13</div>
+              <div class="game-home">Home</div>
+            </div>
+          </div>
+          <div class="game-row">
+            <span class="game-opponent">vs Portland</span>
+            <div class="game-info">
+              <div class="game-date">Jun 18</div>
+              <div class="game-home">Home</div>
+            </div>
+          </div>
+          <div class="game-row">
+            <span class="game-opponent">vs Phoenix</span>
+            <div class="game-info">
+              <div class="game-date">Jun 20 (ABC)</div>
+              <div class="game-home">Home</div>
+            </div>
+          </div>
+          <div class="game-row">
+            <span class="game-opponent">vs Dallas</span>
+            <div class="game-info">
+              <div class="game-date">Jun 23</div>
+              <div class="game-home">Home</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;">
+            <a href="https://storm.wnba.com/schedule" target="_blank" style="font-size:12px;color:var(--accent);font-weight:600;">Full schedule →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOUNDERS -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-icon" style="background:#e8f5ee;">⚽</div>
+          <div>
+            <div class="team-name">Sounders FC</div>
+            <div class="team-league">MLS Soccer</div>
+          </div>
+          <span class="team-status status-break">WC Break</span>
+        </div>
+        <div class="team-games">
+          <p class="no-games">MLS is on pause for the World Cup (May 25 – Jul 16). Sounders return July 16! They also host a USMNT group stage match at Lumen Field. Full season ends Nov 7 vs LAFC.</p>
+          <div style="margin-top:8px;">
+            <a href="https://www.soundersfc.com/schedule" target="_blank" style="font-size:12px;color:var(--accent);font-weight:600;">Full schedule →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEAHAWKS -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-icon" style="background:#e8eff5;">🏈</div>
+          <div>
+            <div class="team-name">Seahawks</div>
+            <div class="team-league">NFL Football</div>
+          </div>
+          <span class="team-status status-upcoming">Sept 9</span>
+        </div>
+        <div class="team-games">
+          <div class="game-row">
+            <span class="game-opponent">vs Patriots</span>
+            <div class="game-info">
+              <div class="game-date">Sep 9 · Week 1</div>
+              <div class="game-home">Home 🔥</div>
+            </div>
+          </div>
+          <div class="game-row">
+            <span class="game-opponent">vs Bears</span>
+            <div class="game-info">
+              <div class="game-date">Week 8</div>
+              <div class="game-away">Away</div>
+            </div>
+          </div>
+          <div class="game-row">
+            <span class="game-opponent">vs Cowboys</span>
+            <div class="game-info">
+              <div class="game-date">Week 13</div>
+              <div class="game-away">Away</div>
+            </div>
+          </div>
+          <div class="game-row">
+            <span class="game-opponent">vs Eagles</span>
+            <div class="game-info">
+              <div class="game-date">Dec 19 · Week 15</div>
+              <div class="game-away">Away</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;">
+            <a href="https://www.seahawks.com/schedule" target="_blank" style="font-size:12px;color:var(--accent);font-weight:600;">Full schedule →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- KRAKEN -->
+      <div class="team-card">
+        <div class="team-header">
+          <div class="team-icon" style="background:#e8eef5;">🦑</div>
+          <div>
+            <div class="team-name">Kraken</div>
+            <div class="team-league">NHL Hockey</div>
+          </div>
+          <span class="team-status status-break">Offseason</span>
+        </div>
+        <div class="team-games">
+          <p class="no-games">The Kraken are in the NHL offseason. The 2026–27 regular season typically kicks off in October. Check back this fall for game day schedules!</p>
+          <div style="margin-top:8px;">
+            <a href="https://www.nhl.com/kraken/schedule" target="_blank" style="font-size:12px;color:var(--accent);font-weight:600;">Official site →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p style="margin-bottom:6px;">
+    <strong style="font-family:'Playfair Display',serif;font-size:15px;">SHEYLUH</strong>
+  </p>
+  <p>Built with 💛 &nbsp;·&nbsp; <a href="https://instagram.com/yourhandle">Instagram</a> &nbsp;·&nbsp; <a href="https://tiktok.com/@yourhandle">TikTok</a> &nbsp;·&nbsp; <a href="https://x.com/yourhandle">Twitter</a></p>
+  <p style="margin-top:8px;">© 2026 Sheyluh · Updated June 2026</p>
+</footer>
+
+</body>
+</html>
